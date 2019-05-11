@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/conversor-sirenes.iml" filepath="$PROJECT_DIR$/conversor-sirenes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/acusticusprofessional-to-arcgis-converter.iml" filepath="$PROJECT_DIR$/.idea/acusticusprofessional-to-arcgis-converter.iml" />
     </modules>
   </component>
 </project>
