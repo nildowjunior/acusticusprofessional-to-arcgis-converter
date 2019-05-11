@@ -28,13 +28,12 @@ export default class App extends React.Component {
     generateWarningsCSVFiles(data) {
         let files = [];
         data.WarningDevices.forEach(device => {
-            let csvFileName = device.DisplayName + ".csv";
             let content = "latitude,longitude\n";
             device.CoveredArea.PolygonPath.forEach(path => {
                 content += path.Lat + "," + path.Lng + "\n";
             });
             files.push({
-                name: csvFileName,
+                name: device.DisplayName + ".csv",
                 content
             });
         });

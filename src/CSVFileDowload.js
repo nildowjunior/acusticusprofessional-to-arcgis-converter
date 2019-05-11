@@ -15,7 +15,7 @@ export default class CSVFileDowload extends React.PureComponent {
                 base64Content={window.btoa(content)}
                 {...others}
             >
-                {this.props.name}
+                {`${name} 💾️`}
             </RawFileDowload>
         );
     }

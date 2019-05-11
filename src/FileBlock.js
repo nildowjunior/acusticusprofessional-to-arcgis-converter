@@ -13,7 +13,7 @@ export default class FileBlock extends React.PureComponent {
                 <div className="input-group-prepend">
                     <CSVFileDowload
                         className="input-group-text"
-                        name={`${name} 💾️`}
+                        name={`${name}`}
                         content={content}
                     />
                 </div>
