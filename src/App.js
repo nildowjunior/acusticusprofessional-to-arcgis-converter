@@ -1,23 +1,32 @@
 import React from 'react';
 import './App.css';
+import FileBlock from "./FileBlock";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
 
+        this.inputTextArea = React.createRef();
         this.state = {
-          files: []
+            files: []
         };
         this.generateWarningsCSVFiles = this.generateWarningsCSVFiles.bind(this);
         this.mountFileHref = this.mountFileHref.bind(this);
+        this.handleOnClickGenerateFiles = this.handleOnClickGenerateFiles.bind(this);
     }
 
     mountFileHref(content) {
-      return `data:text/csv;charset=utf-8;base64,${window.btoa(content)}`
+        return `data:text/csv;charset=utf-8;base64,${window.btoa(content)}`
+    }
+
+    handleOnClickGenerateFiles() {
+        this.setState({
+            files: this.generateWarningsCSVFiles(JSON.parse(this.inputTextArea.current.value))
+        });
     }
 
     generateWarningsCSVFiles(data) {
-      let files = [];
+        let files = [];
         data.WarningDevices.forEach(device => {
             let csvFileName = device.DisplayName + ".csv";
             let content = "latitude,longitude\n";
@@ -29,29 +38,39 @@ export default class App extends React.Component {
                 content
             });
         });
-        this.setState({
-            files
-        });
+        return files;
     }
 
     render() {
         return (
-            <div>
-              <div>
-                  <textarea name="data" id="data" cols="30" rows="10" onChange={(event) => {
-                      this.generateWarningsCSVFiles(JSON.parse(event.target.value));
-                  }}/>
-              </div>
-              <div>
-                  {this.state.files.map(filesData => {
-                    return (
-                        <div>
-                            <a key={filesData.name} download={filesData.name} href={this.mountFileHref(filesData.content)}>{`Download ${filesData.name}`}</a>
-                            <br/>
-                        </div>
-                    )
-                  })}
-              </div>
+            <div className="row">
+                <div
+                    className="col-md-5"
+                >
+                  <textarea name="data" id="data" style={{
+                      width: "100%",
+                      minHeight: "500px",
+                      boxSizing: "border-box"
+                  }} ref={this.inputTextArea}
+                  />
+                </div>
+                <div className="col-md-2">
+                    <button onClick={this.handleOnClickGenerateFiles}>Generate csv files</button>
+                </div>
+                <div
+                    className="col-md-5"
+                >
+                    {this.state.files.map(filesData => {
+                        return (
+                            <FileBlock
+                                key={filesData.name}
+                                style={{display: "block", marginBotton: "10px"}}
+                                name={filesData.name}
+                                content={filesData.content}
+                            />
+                        )
+                    })}
+                </div>
             </div>
         );
     }

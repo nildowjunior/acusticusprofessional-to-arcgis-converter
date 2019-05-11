@@ -1,7 +1,7 @@
 {
   "name": "acusticusprofessional-to-arcgis-converter",
   "version": "0.1.0",
-  "homepage": "https://nildowjunior.github.io/acusticusprofessional-to-arcgis-converter/",
+  "homepage": "https://nildowjunior.github.io/acusticusprofessional-to-arcgis-converter",
   "private": true,
   "dependencies": {
     "gh-pages": "^2.0.1",
