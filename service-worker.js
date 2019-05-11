@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/acusticusprofessional-to-arcgis-converter/precache-manifest.df687197092aaa8ae3d6210d13c79655.js"
+  "/acusticusprofessional-to-arcgis-converter/precache-manifest.95220b05b6a36f205df1d11f79a632f7.js"
 );
 
 self.addEventListener('message', (event) => {
