@@ -9,7 +9,7 @@ export default class FileBlock extends React.PureComponent {
     render() {
         let {name, content} = this.props;
         return (
-            <div className="input-group">
+            <div className={`input-group`}>
                 <div className="input-group-prepend">
                     <CSVFileDowload
                         className="input-group-text"

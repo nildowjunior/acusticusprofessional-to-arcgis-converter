@@ -66,32 +66,27 @@ export default class App extends React.Component {
                     </p>
                 </div>
                 <div className="row">
-                    <div
-                        className="col-md-5"
-                    >
-                            <textarea name="data" id="data" style={{
-                                width: "100%",
-                                minHeight: "500px",
-                                boxSizing: "border-box"
-                            }} ref={this.inputTextArea}
-                            />
+                    <div className="col-md-5">
+                        <textarea
+                            name="data"
+                            id="data"
+                            className="dataInput"
+                            ref={this.inputTextArea}
+                        />
                     </div>
                     <div className="col-md-2">
-                        <button onClick={this.handleOnClickGenerateFiles}>Generate csv files</button>
+                        <button onClick={this.handleOnClickGenerateFiles}>
+                            {"Generate csv files"}
+                        </button>
                     </div>
-                    <div
-                        className="col-md-5"
-                    >
-                        {this.state.files.map(filesData => {
-                            return (
-                                <FileBlock
-                                    key={filesData.name}
-                                    style={{display: "block", marginBotton: "10px"}}
-                                    name={filesData.name}
-                                    content={filesData.content}
-                                />
-                            )
-                        })}
+                    <div className="col-md-5">
+                        {this.state.files.map(filesData =>
+                            <FileBlock
+                                key={filesData.name}
+                                name={filesData.name}
+                                content={filesData.content}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
