@@ -46,8 +46,11 @@ export default class App extends React.Component {
             <div className="container">
                 <div className="row">
                     <p>
-                        {"Para converter os arquivos CSVs gerados para o formato KMZ você pode utilizar o site "} <a
-                        href="https://mygeodata.cloud/converter/latlong-to-kmz">{"deste link"}</a>
+                        {"Para converter os arquivos CSVs gerados para o formato KMZ você pode utilizar o site "}
+                        <a target="_blank" rel="noopener noreferrer"
+                           href="https://mygeodata.cloud/converter/latlong-to-kmz">
+                            {"deste link"}
+                        </a>
                     </p>
                 </div>
                 <div className="row">
