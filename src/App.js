@@ -56,7 +56,7 @@ export default class App extends React.Component {
                         <li>{"Utilizar a opção de filtro da parte superior para buscar o request \"loadProjectLayerWithVisibleGeoObjects\""}</li>
                         <li>{"Seleciona o item apresentado"}</li>
                         <li>{"Acesse a aba \"preview\" e copie o conteúdo da resposta (apenas a parte textual sem copiar o \" do inicio e do final"}</li>
-                        <li>{"Cole o conteúdo copiado no espaço abaixo e pressione para realizar a conversão"}</li>
+                        <li>{"Cole o conteúdo copiado no espaço abaixo e pressione o botão para gerar os arquivos CSV"}</li>
                     </ol>
                     <p>
                         {"Para converter os arquivos CSVs gerados para o formato KMZ você pode utilizar o site  "} <a
