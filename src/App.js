@@ -43,33 +43,41 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div className="row">
-                <div
-                    className="col-md-5"
-                >
+            <div className="container">
+                <div className="row">
+                    <p>
+                        {"Para converter os arquivos CSVs gerados para o formato KMZ você pode utilizar o site "} <a
+                        href="https://mygeodata.cloud/converter/latlong-to-kmz">{"deste link"}</a>
+                    </p>
+                </div>
+                <div className="row">
+                    <div
+                        className="col-md-5"
+                    >
                   <textarea name="data" id="data" style={{
                       width: "100%",
                       minHeight: "500px",
                       boxSizing: "border-box"
                   }} ref={this.inputTextArea}
                   />
-                </div>
-                <div className="col-md-2">
-                    <button onClick={this.handleOnClickGenerateFiles}>Generate csv files</button>
-                </div>
-                <div
-                    className="col-md-5"
-                >
-                    {this.state.files.map(filesData => {
-                        return (
-                            <FileBlock
-                                key={filesData.name}
-                                style={{display: "block", marginBotton: "10px"}}
-                                name={filesData.name}
-                                content={filesData.content}
-                            />
-                        )
-                    })}
+                    </div>
+                    <div className="col-md-2">
+                        <button onClick={this.handleOnClickGenerateFiles}>Generate csv files</button>
+                    </div>
+                    <div
+                        className="col-md-5"
+                    >
+                        {this.state.files.map(filesData => {
+                            return (
+                                <FileBlock
+                                    key={filesData.name}
+                                    style={{display: "block", marginBotton: "10px"}}
+                                    name={filesData.name}
+                                    content={filesData.content}
+                                />
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         );
