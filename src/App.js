@@ -9,12 +9,15 @@ export default class App extends React.Component {
         this.inputTextArea = React.createRef();
         this.state = {
             files: [],
-            error:  undefined
+            showUseInstructions: false,
+            error: undefined
         };
         this.generateWarningsCSVFiles = this.generateWarningsCSVFiles.bind(this);
         this.mountFileHref = this.mountFileHref.bind(this);
         this.generateWarningCSVFile = this.generateWarningCSVFile.bind(this);
         this.handleOnClickGenerateFiles = this.handleOnClickGenerateFiles.bind(this);
+        this.getUseInstructions = this.getUseInstructions.bind(this);
+        this.handleOnClickToggleUseInstructions = this.handleOnClickToggleUseInstructions.bind(this);
     }
 
     mountFileHref(content) {
@@ -23,11 +26,11 @@ export default class App extends React.Component {
 
     handleOnClickGenerateFiles() {
         let files, error;
-        try{
+        try {
             files = this.generateWarningsCSVFiles(JSON.parse(this.inputTextArea.current.value));
         } catch (e) {
             files = [];
-            error = e;
+            error = e.toString();
         }
 
         this.setState({
@@ -37,7 +40,7 @@ export default class App extends React.Component {
     }
 
     generateWarningCSVFile(device) {
-        if (device.CoveredArea.PolygonPath && device.DisplayName) {
+        if (device && device.CoveredArea && device.CoveredArea.PolygonPath && device.DisplayName) {
             let content = "latitude,longitude\n";
             device.CoveredArea.PolygonPath.forEach(path => {
                 content += path.Lat + "," + path.Lng + "\n";
@@ -47,12 +50,12 @@ export default class App extends React.Component {
                 content
             };
         }
-        else throw new Error("device doesn't have all required attributes")
+        else throw new Error("device doesn't have all the required attributes")
     }
 
     generateWarningsCSVFiles(data) {
         let files = [];
-        if (data.WarningDevices) {
+        if (data && data.WarningDevices) {
             data.WarningDevices.forEach((device) => files.push(this.generateWarningCSVFile(device)));
         } else {
             files.push(this.generateWarningCSVFile(data));
@@ -60,19 +63,35 @@ export default class App extends React.Component {
         return files;
     }
 
-    render() {
-        return (
-            <div className="container">
-                <div className="row">
-                    {"Instruções de uso: "}
+    handleOnClickToggleUseInstructions() {
+        this.setState({
+            showUseInstructions: !this.state.showUseInstructions
+        });
+    }
+
+    getUseInstructions() {
+        if (this.state.showUseInstructions) {
+            return (
+                <div className="row col-md-12">
                     <ol>
                         <li>{"Acesse o site "} <a target="_blank" rel="noopener noreferrer"
                                                   href="http://acusticusprofessional.telegrafia.eu/Acusticus.aspx">{"acusticus professional"}</a>
                         </li>
                         <li>{"Abra as ferramentas de desenvolvedor (pressione F12 ou Ctrl + Shift + i)"}</li>
                         <li>{"Nas ferramentas de desenvolvedor acesse a aba \"Network\""}</li>
-                        <li>{"Pressione F5 para recarregar a página"}</li>
-                        <li>{"Utilizar a opção de filtro da parte superior para buscar o request \"loadProjectLayerWithVisibleGeoObjects\""}</li>
+                        <li>{"Se estiver logado:"}</li>
+                        <ol>
+                            <li>{"Selecione um dos componentes de áudio"}</li>
+                            <li>{"Use a opção de salvar (menu lateral direito)"}</li>
+                            <li>{"Nas ferramentas de desenvolvedor utilizar a opção de filtro da parte superior para buscar o request \"updateWarningDeviceSettings\". Existirá um item desse para cada vez que a opção salvar for pressionada"}</li>
+                            <li>{"Siga as demais instruções"}</li>
+                        </ol>
+                        <li>{"Se estiver deslogado"}</li>
+                        <ol>
+                            <li>{"Pressione F5 para recarregar a página"}</li>
+                            <li>{"Nas ferramentas de desenvolvedor utilizar a opção de filtro da parte superior para buscar o request \"loadProjectLayerWithVisibleGeoObjects\""}</li>
+                            <li>{"Siga as demais instruções"}</li>
+                        </ol>
                         <li>{"Seleciona o item apresentado"}</li>
                         <li>{"Acesse a aba \"preview\" e copie o conteúdo da resposta (apenas a parte textual sem copiar o \" do inicio e do final"}</li>
                         <li>{"Cole o conteúdo copiado no espaço abaixo e pressione o botão para gerar os arquivos CSV"}</li>
@@ -84,6 +103,20 @@ export default class App extends React.Component {
                         {"deste link"}
                     </a>
                     </p>
+                </div>
+            )
+        }
+        return null;
+    }
+
+    render() {
+        return (
+            <div className="container">
+                <div className="row col-md-12">
+                    <button onClick={this.handleOnClickToggleUseInstructions}>{`${this.state.showUseInstructions ? "Ocultar" : "Apresentar"} instruções de uso`}</button>
+                </div>
+                {this.getUseInstructions()}
+                <div className="row col-md-12">
                     <p style={{color: 'red'}}>
                         {this.state.error}
                     </p>
