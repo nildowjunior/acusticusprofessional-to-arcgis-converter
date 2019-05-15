@@ -8,10 +8,12 @@ export default class App extends React.Component {
 
         this.inputTextArea = React.createRef();
         this.state = {
-            files: []
+            files: [],
+            error:  undefined
         };
         this.generateWarningsCSVFiles = this.generateWarningsCSVFiles.bind(this);
         this.mountFileHref = this.mountFileHref.bind(this);
+        this.generateWarningCSVFile = this.generateWarningCSVFile.bind(this);
         this.handleOnClickGenerateFiles = this.handleOnClickGenerateFiles.bind(this);
     }
 
@@ -20,23 +22,41 @@ export default class App extends React.Component {
     }
 
     handleOnClickGenerateFiles() {
+        let files, error;
+        try{
+            files = this.generateWarningsCSVFiles(JSON.parse(this.inputTextArea.current.value));
+        } catch (e) {
+            files = [];
+            error = e;
+        }
+
         this.setState({
-            files: this.generateWarningsCSVFiles(JSON.parse(this.inputTextArea.current.value))
-        });
+            files,
+            error
+        })
     }
 
-    generateWarningsCSVFiles(data) {
-        let files = [];
-        data.WarningDevices.forEach(device => {
+    generateWarningCSVFile(device) {
+        if (device.CoveredArea.PolygonPath && device.DisplayName) {
             let content = "latitude,longitude\n";
             device.CoveredArea.PolygonPath.forEach(path => {
                 content += path.Lat + "," + path.Lng + "\n";
             });
-            files.push({
+            return {
                 name: device.DisplayName + ".csv",
                 content
-            });
-        });
+            };
+        }
+        else throw new Error("device doesn't have all required attributes")
+    }
+
+    generateWarningsCSVFiles(data) {
+        let files = [];
+        if (data.WarningDevices) {
+            data.WarningDevices.forEach((device) => files.push(this.generateWarningCSVFile(device)));
+        } else {
+            files.push(this.generateWarningCSVFile(data));
+        }
         return files;
     }
 
@@ -63,6 +83,9 @@ export default class App extends React.Component {
                         href="https://mygeodata.cloud/converter/latlong-to-kmz">
                         {"deste link"}
                     </a>
+                    </p>
+                    <p style={{color: 'red'}}>
+                        {this.state.error}
                     </p>
                 </div>
                 <div className="row">
